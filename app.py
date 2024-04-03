@@ -63,10 +63,15 @@ if __name__ == "__main__":
         predictions = lr.predict(X_train)
         signature = infer_signature(X_train, predictions)
 
+        # for remote server for dagshub
+
+        remote_server_uri = "https://dagshub.com/yadukrishna628/mlflowtrial.mlflow"
+        mlflow.set_tracking_uri(remote_server_uri)
+
         tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
 
         if tracking_url_type_store != "file":
-            mlflow.sklearn.load_model(
+            mlflow.sklearn.log_model(
                 lr, "model", registered_model_name ="ElasticnetWineModel", signature= signature 
             )
         
